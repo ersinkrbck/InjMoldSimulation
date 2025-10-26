@@ -1,0 +1,86 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2406                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            heRhoThermo;   
+    mixture         pureMixture;
+    transport       WLF;
+    thermo          eConst;   // iç enerji girdisi istenebilir
+    equationOfState rhoConst;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+	
+}
+
+mixture
+{
+    specie
+    {
+        molWeight   18.0;   // HDPE mol ağırlığı
+    }
+
+
+    equationOfState
+    {
+
+		rho			738.28; // https://chatgpt.com/share/68b9aa0f-2038-8013-b6d5-c16c4cfc29e4
+    }
+
+    thermodynamics
+    {
+		Cv			1000; Cv= Cp -R R=0
+		Cp			1000;
+        Hf          0;
+        Sf          0;
+    }
+
+    transport
+	{    
+        n               0.393539;
+        Tau             64568.9;
+        D1              3.76e15; // değiştirildi, küçültüldü
+        D2              153.15;
+        D3              0;
+        A1              33.21;
+        A2              51.6;
+        etaMin          5;
+        etaMax          1e6;
+        TnoFlow         383.15;
+        deltaTempInterp 10.0;
+		// lambda 0.22; W/m*K
+		mu0				3.76e15; // D1 ile aynı şey, Tref de sıfır kayma viskozitesi, patlarsa küçült (pr büyük çıkıyor)
+		Tr				153.15; // D2? referans sıcaklık
+		C1				33.21; // A1
+		C2				51.6; // A2
+		Pr				1.71e19; // Pr = Cp * mu0 / lambda
+
+	}
+}
+
+thermophsicalTransport
+{
+	type			tabulated;
+	kappa
+	{
+		file "$constant/kappaTable";
+		fields		(T p);
+		outOfBounds	clamp;
+	}
+    
+}
+
+// ************************************************************************* //

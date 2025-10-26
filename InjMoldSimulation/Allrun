@@ -1,0 +1,16 @@
+#!/bin/bash
+cd "${0%/*}" || exit 1
+
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
+restore0Dir
+runApplication setFields
+
+# -------- FILL -------- #
+runApplication decomposePar || exit 1 # prepare parallel
+runParallel $(getApplication) || exit 1
+
+
+
+
+reconstructPar || exit 1
+

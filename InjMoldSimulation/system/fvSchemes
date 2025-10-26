@@ -1,0 +1,66 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2406                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes // zamana göre değişim terimlerini hesaplar (dU/dt)
+{
+    default         Euler; // birinci derece, basit problemler ilk denemeler için
+}
+
+gradSchemes // gradyanları hesaplar. ∇p, ∇T, ∇U
+{
+    default         Gauss linear; // gauss teoremi ve lineer interpolasyon
+}
+
+divSchemes // momentum taşınımı denklemleri
+{
+    div(rhoPhi,U)   Gauss limitedLinearV 1; //Temel taşınım terimleri, momentum korunumu (Navier-Stokes) denklemleri
+    div(rhoPhi,T)   Gauss linearUpwind grad(T); // Enerji Taşınımı denklemleri
+
+    div(phi,alpha)  Gauss vanLeer; // Faz kesri taşınımı VoF 
+    div(phirb,alpha) Gauss linear; // Arayüz sıkıştırma terimi 
+
+    div(phi,p)      Gauss upwind;
+    div(rhoPhi,K)   Gauss upwind;
+
+    div(alphaRhoPhi.liquid,sigma.liquid)                               Gauss upwind;
+    div(((alpha.liquid*thermo:rho.liquid)*sigma.liquid))              Gauss linear;
+    div((((alpha.liquid*thermo:rho.liquid)*nuM)*grad(U)))             Gauss linear;
+    div((((alpha.liquid*thermo:rho.liquid)*(thermo:mu.liquid|thermo:rho.liquid))*dev2(T(grad(U))))) Gauss linear;
+
+    /* sıkıştırılabilir tek faz viskoz-terimi */
+    div(((rho*nuEff)*dev2(T(grad(U)))))                                Gauss linear;
+
+    div((((alpha.air*thermo:rho.air)*nuEff.air)*dev2(T(grad(U)))))     Gauss linear;
+    div((((alpha.liquid*thermo:rho.liquid)*nuEff.liquid)*dev2(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+// ************************************************************************* //
