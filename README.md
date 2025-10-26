@@ -1,13 +1,12 @@
 # InjMoldSimulation
-This repository is a version of the original krebeljk/openInjMoldSim project adapted to OpenFOAM v2406 and simplified the viscosity model to significantly reduce computational time.
-ONLY FOCUS ON FILL STAGE
+This repository is a version of the original krebeljk/openInjMoldSim project adapted to OpenFOAM v2406 and simplified the viscosity model to significantly reduce computational time. ONLY FOCUS ON FILL STAGE!
 ![animation](https://github.com/user-attachments/assets/48a48444-3483-493c-a74e-7936ddf3edb4)
 
 # ABOUT THE PROJECT
 
 The original project simulates all stages of plastic injection molding (filling - holding - packing) with high accuracy and detailed using Compressible Cross-WLF model. However, It takes quite much times to simulate it due to complication of this solver who works on openFOAM version 7. (It takes 4-5 days depends on your PC.)
 
-This repository handle the problems with two basic changes:
+This repository handle the problems with three basic changes:
 
 1. OpenFOAM version update for project;
 Project has moved OpenFOAM version 2406.
