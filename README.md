@@ -37,3 +37,5 @@ Early Stage Analysis: This simplified model is ideal for early design stages, su
 - Krebelj, K., Krebelj, A., Halilovič, M., & Mole, N. (2021). Modeling Injection Molding of High-Density Polyethylene with Crystallization in Open-Source Software. Polymers, 13(1), 138.
 - https://www.researchgate.net/publication/341807768_Verification_and_Validation_of_openInjMoldSim_an_Open-Source_Solver_to_Model_the_Filling_Stage_of_Thermoplastic_Injection_Molding
 
+#-----#
+I think it is not suitable for industrial use.
